@@ -1,0 +1,72 @@
+<div class="sidebar">
+    <a routerLink="/dashboard">Home</a>
+    <a class="active" routerLink="/friend-tab">Friends</a>
+    <a routerLink="/group-tab">Group</a>
+    <a routerLink="/activity-tab">Activity</a>
+    <a routerLink="/insight">Insights</a>
+    <a (click)="logout()">Logout</a>
+  </div>
+  <div class="content">
+   <table id="customers">
+       <tr>
+           <th>Name</th>
+           <th>Amount to be paid</th>
+           <th>Amount to be received</th>
+       </tr>
+       <!-- <div> -->
+    <ng-container *ngFor="let fr of friend; let i = index">
+       <tr>
+        <!-- {% for g in friend %}   -->
+        
+           <td><button class="none" (click)="onClick(fr)">
+            {{fr.FriendName}}
+        </button>
+          
+        </td>
+           <td>{{fr.MoneyBorrowed.toFixed(2)}}</td>
+           <td>{{fr.MoneyGiven.toFixed(2)}}</td>
+           
+        <!-- {% endfor %} -->
+        </tr>
+        <tr>
+            <td colspan=3>
+            <div *ngIf="show && fr.UserName==detailed_f_name">
+                    <div *ngFor="let t of all_details_keys">
+                            <!-- {{t}} -->
+                            <div *ngIf="t.startsWith(fr.UserName+':')">
+                                <div *ngIf="!allset(all_details[t])">
+
+                                        <button class="button" (click)="settleupall(fr.UserName)">Settle accounts</button><br>
+                                        <div *ngFor="let t of all_details_keys">
+                                                <!-- {{t}} -->
+                                                <div *ngIf="t.startsWith(fr.UserName+':')">
+                                                        <div *ngFor="let item of all_details[t] | keyvalue">
+                                                            <div *ngIf="(item.value[0].toFixed(2))!=0">
+                                                                <button class="none" (click)="open_group(item.key)" >{{func(item.value[0].toFixed(2))}}
+                                                                in the group
+                                                                {{item.value[1]}}</button>
+                                                                </div>  
+                                                            </div>
+                                                </div>
+                                            </div>
+                                </div>  
+                                <div *ngIf="allset(all_details[t])">
+
+                                        You have no pending transactions.
+                                </div>  
+                            </div>
+                        </div>
+                
+                <!-- <div *ngFor="let t of all_details[fr.UserName]"> -->
+                    <!-- {{t}} -->
+                <!-- </div> -->
+
+            </div></td>
+        </tr>
+    </ng-container>
+    <!-- </div> -->
+       
+   </table>
+   <br>
+   <a routerLink="/addfriend" class="button">Add Friend</a>  
+</div>
